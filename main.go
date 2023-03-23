@@ -225,12 +225,12 @@ func deleteAlbum(w http.ResponseWriter, r *http.Request) {
 
 	param := chi.URLParam(r, "id")
 	paramsID, _ := strconv.Atoi(param)
-	fmt.Println("------------------>paramid", paramsID)
+	//fmt.Println("------------------>paramid", paramsID)
 
 	//Loop through albums and find that id
 	for index, curAlbum := range albums {
 		if curAlbum.ID == paramsID {
-			fmt.Println("----------------->hi")
+			//fmt.Println("----------------->hi")
 			//time complexity can be improved by using map
 			albums = append(albums[:index], albums[index+1:]...)
 			break
