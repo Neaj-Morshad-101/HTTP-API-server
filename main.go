@@ -17,7 +17,7 @@
 
 //todo
 //"Improvements"
-//Use map in database for efficiency in time complexity
+//Use map in database for efficiency (better time complexity)
 
 package main
 
@@ -28,94 +28,74 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	//"fmt"
+	//"time"
+	//
+	//"github.com/go-chi/chi/v5"
+	//"github.com/go-chi/chi/v5/middleware"
+	//"github.com/go-chi/jwtauth/v5"
+	//"github.com/lestrrat-go/jwx/jwa"
+	//"github.com/lestrrat-go/jwx/jwt"
 )
 
 // Album Struct
 type Album struct {
-	ID       int     `json:"id"`
-	Title    string  `json:"title"`
-	Artist   *Artist `json:"artist"`
-	Language string  `json:"language"`
+	ID       int    `json:"id"`
+	Title    string `json:"title"`
+	Artist   Artist `json:"artist"`
+	Language string `json:"language"`
 }
 
 // Artist Struct
 type Artist struct {
-	ID        int    `json:"id"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-}
-
-// ArtistInfo Struct
-type ArtistInfo struct {
 	FirstName string `json:"firstname"`
 	LastName  string `json:"lastname"`
 }
 
 // For new ID generation
-var maxArtistID int
 var maxAlbumID int
 
 // Init a albums var as a slice of Album struct
 var albums []Album
-var artists []Artist
 
 func initMaxID() {
-	maxArtistID = 0
 	maxAlbumID = 0
-}
-
-func initArtistDB() {
-	var newArtist Artist
-	maxArtistID++
-	newArtist = Artist{
-		ID:        maxArtistID,
-		FirstName: "MonMojaiya",
-		LastName:  "artist",
-	}
-	artists = append(artists, newArtist)
-
-	maxArtistID++
-	newArtist = Artist{
-		ID:        maxArtistID,
-		FirstName: "EkdinMatir",
-		LastName:  "artist",
-	}
-	artists = append(artists, newArtist)
-
-	maxArtistID++
-	newArtist = Artist{
-		ID:        maxArtistID,
-		FirstName: "Arijit",
-		LastName:  "Singh",
-	}
-	artists = append(artists, newArtist)
 }
 
 func initAlbumDB() {
 	var newAlbum Album
 	maxAlbumID++
 	newAlbum = Album{
-		ID:       maxAlbumID,
-		Title:    "Amar mon mojaiya re",
-		Artist:   &artists[0],
+		ID:    maxAlbumID,
+		Title: "Amar mon mojaiya re",
+		Artist: Artist{
+			FirstName: "MonMojaiya",
+			LastName:  "artist",
+		},
 		Language: "Bengali",
 	}
 	albums = append(albums, newAlbum)
 
 	maxAlbumID++
 	newAlbum = Album{
-		ID:       maxAlbumID,
-		Title:    "Ekdin Matir Vitore Hobe Ghor",
-		Artist:   &artists[1],
+		ID:    maxAlbumID,
+		Title: "Ekdin Matir Vitore Hobe Ghor",
+		Artist: Artist{
+			FirstName: "EkdinMatir",
+			LastName:  "artist",
+		},
 		Language: "Bengali",
 	}
 	albums = append(albums, newAlbum)
 
 	maxAlbumID++
 	newAlbum = Album{
-		ID:       maxAlbumID,
-		Title:    "Arijit Singh er Ekti Gaaaan",
-		Artist:   &artists[2],
+		ID:    maxAlbumID,
+		Title: "Arijit Singh er Ekti Gaaaan",
+		Artist: Artist{
+			FirstName: "Arijit",
+			LastName:  "Singh",
+		},
 		Language: "Hindi",
 	}
 	albums = append(albums, newAlbum)
@@ -133,7 +113,6 @@ func initAlbumDB() {
 
 func initDB() {
 	initMaxID()
-	initArtistDB()
 	initAlbumDB()
 }
 
@@ -176,10 +155,7 @@ func createAlbum(w http.ResponseWriter, r *http.Request) {
 
 	maxAlbumID++
 	newAlbum.ID = maxAlbumID
-	maxArtistID++
-	newAlbum.Artist.ID = maxArtistID
 	albums = append(albums, newAlbum)
-	artists = append(artists, *newAlbum.Artist)
 	json.NewEncoder(w).Encode(newAlbum)
 }
 
@@ -202,17 +178,8 @@ func updateAlbum(w http.ResponseWriter, r *http.Request) {
 			albums = append(albums[:index], albums[index+1:]...)
 			newAlbum.ID = paramsID
 
-			for idx, curArtist := range artists {
-				if curArtist.ID == curAlbum.Artist.ID {
-					artists = append(artists[:idx], artists[idx+1:]...)
-					break
-				}
-			}
-
-			maxArtistID++
-			newAlbum.Artist.ID = maxArtistID
 			albums = append(albums, newAlbum)
-			artists = append(artists, *newAlbum.Artist)
+
 			break
 		}
 	}
@@ -231,12 +198,6 @@ func deleteAlbum(w http.ResponseWriter, r *http.Request) {
 		if curAlbum.ID == paramsID {
 			//time complexity can be improved by using map
 			albums = append(albums[:index], albums[index+1:]...)
-			for idx, curArtist := range artists {
-				if curArtist.ID == curAlbum.Artist.ID {
-					artists = append(artists[:idx], artists[idx+1:]...)
-					break
-				}
-			}
 			break
 		}
 	}
@@ -244,51 +205,60 @@ func deleteAlbum(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(albums)
 }
 
-// Get All Artist with duplicates
-//func getArtistsAll(w http.ResponseWriter, r *http.Request) {
-//	w.Header().Set("Content-Type", "application/json")
-//	json.NewEncoder(w).Encode(artists)
-//}
-
+// Get All Artist
 func getArtists(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var uniqueArtist = make(map[ArtistInfo]int)
+	var uniqueArtist = make(map[Artist]bool)
 	var uniqueArtistList []Artist
-	for _, curArtist := range artists {
-		var newArtistInfo ArtistInfo
-		newArtistInfo.FirstName = curArtist.FirstName
-		newArtistInfo.LastName = curArtist.LastName
-
-		_, keyExists := uniqueArtist[newArtistInfo]
+	for _, curAlbum := range albums {
+		curArtist := curAlbum.Artist
+		_, keyExists := uniqueArtist[curArtist]
 		if keyExists == false {
-			uniqueArtist[newArtistInfo] = curArtist.ID
+			uniqueArtist[curArtist] = true
 			uniqueArtistList = append(uniqueArtistList, curArtist)
 		}
 	}
-	// Not necessary, because it will remain sorted everytime, but recheck it
-	//sort.SliceStable(uniqueArtistList, func(i, j int) bool {
-	//	return uniqueArtistList[i].ID < uniqueArtistList[j].ID
-	//})
 	json.NewEncoder(w).Encode(uniqueArtistList)
 }
 
-// Get Single Artist
-func getArtist(w http.ResponseWriter, r *http.Request) {
+// Get Top X Artist by album total number of album count
+func getTopArtists(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-
 	params := mux.Vars(r) // Get the params
 
-	paramsID, _ := strconv.Atoi(params["id"])
-	//Loop through artist and find that id
-	for _, curArtist := range artists {
-		if curArtist.ID == paramsID {
-			json.NewEncoder(w).Encode(curArtist)
-			return
-		}
+	numberOfArtistToShow, _ := strconv.Atoi(params["x"])
+
+	var artistCount = make(map[Artist]int)
+
+	for _, curAlbum := range albums {
+		artistCount[curAlbum.Artist]++
 	}
 
-	json.NewEncoder(w).Encode("No Artist data available for the given id")
+	type ArtistsAlbumCount struct {
+		Artist   Artist
+		AlbumCnt int
+	}
+	var artistList []ArtistsAlbumCount
+
+	for artist, x := range artistCount {
+		artistList = append(artistList, ArtistsAlbumCount{
+			artist,
+			x,
+		})
+	}
+
+	sort.SliceStable(artistList, func(i, j int) bool {
+		return artistList[i].AlbumCnt > artistList[j].AlbumCnt
+	})
+
+	maxLen := len(artistList)
+	if numberOfArtistToShow < maxLen {
+		maxLen = numberOfArtistToShow
+	}
+
+	artistList = artistList[:maxLen]
+	json.NewEncoder(w).Encode(artistList)
 }
 
 func main() {
@@ -306,7 +276,7 @@ func main() {
 	router.HandleFunc("/api/albums/{id}", deleteAlbum).Methods("DELETE")
 
 	router.HandleFunc("/api/artists", getArtists).Methods("GET")
-	router.HandleFunc("/api/artists/{id}", getArtist).Methods("GET")
+	router.HandleFunc("/api/artists/{x}", getTopArtists).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":5050", router))
 
