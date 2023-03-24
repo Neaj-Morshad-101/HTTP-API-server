@@ -1,2 +1,1 @@
-# HTTP-API-server
-This is a basic RESTful API server, build with Golang.
+RESTful HTTP API server using Go, Cobra CLI and Go-Chi
