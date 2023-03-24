@@ -321,7 +321,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	//tokenAuth = jwtauth.New(string(jwa.HS256), jwtkey, nil)
 
-	expiretime := time.Now().Add(2 * time.Minute)
+	expiretime := time.Now().Add(10 * time.Minute)
 
 	_, tokenString, err := tokenAuth.Encode(map[string]interface{}{
 		"aud": "Neaj Morshad",
