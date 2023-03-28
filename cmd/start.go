@@ -4,7 +4,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"github.com/Neaj-Morshad-101/HTTP-API-server/apis"
 	"github.com/spf13/cobra"
 )
@@ -19,7 +18,7 @@ var (
 		Long: `start the server on a default port ,
 				but port can be specify using the port flag`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("add startserver func here")
+			//fmt.Println("add startserver func here")
 			apis.StartServer(Port)
 		},
 	}
