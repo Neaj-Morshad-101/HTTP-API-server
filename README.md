@@ -71,7 +71,7 @@ WILL BE UPDATED SOON
 
 - `curl -X POST -H "Content-Type:application/json" -d '{"username":"neajmorshad","password":"1234"}' http://localhost:8080/login`
 
-#### Do CRUD request 
+#### Do CRUD Requests: GET POST PUT DELETE (Hit any endpoint) 
 ----------------
 
 ### API Endpoints Testing
