@@ -42,7 +42,7 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 #### Run the API server from the docker image in docker container
 
 - `docker run -p 8080:8080 <image_name>` (valid when used `CMD ["start", "-p", "8080"]` in Dockerfile)
-- `docker run -p 8080:8080 <image_name> start -p "8080"` (valid for current version of Dockerfile, when did not used CMD in Dockerfile)
+- `docker run -p 8080:8080 <image_name> start -p "8080"` (when did not used CMD in Dockerfile)
 
 --------------
 
@@ -54,7 +54,7 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 --------------
 
-#### run using volume (valid for current version where did not gave .env file in docker image)
+#### run using volume (where did not gave .env file in docker image)
 
 
 - `docker run -v <absolute_host_path/.env>:<container_path/.env> -p 8080:8080 <image_name> start -p 8080`
