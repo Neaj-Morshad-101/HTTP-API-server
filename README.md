@@ -26,9 +26,7 @@ This is a basic RESTful API server, build with Golang. In this API server I have
   "1234", 
 }
 
-### Build the docker image using these commands: 
-- `docker build -t neajmorshad/http-api-server:0.0.1 .`
-- `docker push neajmorshad/http-api-server:0.0.1`
+
 
 ### Run the API server in docker container using dockerfile
 
@@ -36,6 +34,10 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 - `docker build -t <image_name> .`
 - or `docker build -t <docker_hub_username>/<image_name>:<tag> .` (if your do this then don't need to give tag before dockerhub push)
+
+#### Build the docker image using these commands:
+- `docker build -t neajmorshad/http-api-server:0.0.1 .`
+- `docker push neajmorshad/http-api-server:0.0.1`
 
 #### Run the API server from the docker image in docker container
 
