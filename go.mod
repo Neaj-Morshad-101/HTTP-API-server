@@ -3,7 +3,6 @@ module github.com/Neaj-Morshad-101/HTTP-API-server
 go 1.20
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/lestrrat-go/jwx v1.2.25
