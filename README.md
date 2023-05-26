@@ -85,4 +85,3 @@ WILL BE UPDATED SOON
 - Primarily tested the API endpoints by [Postman](https://github.com/postmanlabs)
 - E2E Testing.
     - Checked response status code with our expected status code
-      "git add .;git commit -a -s -m added-all;git push origin HEAD"
