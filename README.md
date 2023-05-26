@@ -19,6 +19,12 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 --------------
 
+
+Credentials{
+  "Neaj Morshad",
+  "1234",
+}
+
 ### Run the API server in docker container using dockerfile
 
 #### Create docker image from the dockerfile
@@ -79,3 +85,4 @@ WILL BE UPDATED SOON
 - Primarily tested the API endpoints by [Postman](https://github.com/postmanlabs)
 - E2E Testing.
     - Checked response status code with our expected status code
+      "git add .;git commit -a -s -m added-all;git push origin HEAD"
