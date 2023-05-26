@@ -20,7 +20,11 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 --------------
 
 
-### Credentials { "Neaj Morshad", "1234", }
+### Credentials 
+{ 
+  "Neaj Morshad",
+  "1234", 
+}
 
 ### Build the docker image using these commands: 
 - `docker build -t neajmorshad/http-api-server:0.0.1 .`
