@@ -26,3 +26,8 @@ COPY --from=builder /app/http-api-server .
 ENTRYPOINT ["./http-api-server"]
 
 CMD ["start"]
+
+
+
+#docker build -t neajmorshad/http-api-server:0.0.1 .
+#docker push neajmorshad/http-api-server:0.0.1
