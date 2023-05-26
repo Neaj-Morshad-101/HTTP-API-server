@@ -46,7 +46,7 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 --------------
 
-#### upload the image to [Docker Hub](https://hub.docker.com/)
+#### Upload the image to [Docker Hub](https://hub.docker.com/)
 
 - `docker login --username=<docker_hub_username>`
 - `docker tag <id_of_the_created_image> <docker_hub_username>/<name_of_the_image>:<tag>`
@@ -54,7 +54,7 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 --------------
 
-#### run using volume (where did not gave .env file in docker image)
+#### Run using volume (where did not gave .env file in docker image)
 
 
 - `docker run -v <absolute_host_path/.env>:<container_path/.env> -p 8080:8080 <image_name> start -p 8080`
