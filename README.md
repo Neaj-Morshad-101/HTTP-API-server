@@ -7,8 +7,6 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 
 ### Installation
 - `git clone git@github.com:Neaj-Morshad-101/HTTP-API-server.git`
-- `cd HTTP-API-server`
-- `go install ./HTTP-API-server`
 
 ## To Run the HTTP-API-server, Please follow the instructions bellow:
 
@@ -54,7 +52,10 @@ You can hit the API using postman also, Select correct verb and the API endpoint
 
 ---------------
 
-### Run by CLI Commands
+
+## Other Information:
+
+### Some CLI Commands
 
 - Start the API in default port : 8080 by `HTTP-API-server start`
 - Start the API in your given port by `HTTP-API-server start -p=PORT_NUMBER`, give your port number in the place of PORT_NUMBER
