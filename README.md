@@ -10,6 +10,46 @@ This is a basic RESTful API server, build with Golang. In this API server I have
 - `cd HTTP-API-server`
 - `go install ./HTTP-API-server`
 
+## To Run the HTTP-API-server, Please follow the instructions bellow:
+
+### Step 01: To start the api server, go to the project directory the run the following command:
+
+`cd go/src/github.com/Neaj-Morshad-101/HTTP-API-server/`
+`./HTTP-API-server start -p 8080`
+
+Notes: You can give any port number just remember this to use it in request you send.
+
+### Step 02: Start Postman by using the command: 
+`postman`
+
+### Step 03: Now hit the api server using the login info:
+`curl -X POST -d '{"username":"Neaj Morshad","password":"1234"}' http://localhost:8080/login`
+
+Notes:
+You can do it from the postman also, select verb POST and hit http://localhost:8080/login 
+in the body section: select raw and the these login data in json format
+{
+	"username" : "Neaj Morshad",
+	"password" : "1234"
+}
+
+### Step 04: Set the token from the command line using the following command: 
+`TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiTmVhaiBNb3JzaGFkIl0sImV4cCI6MTY3OTY0MjIxOX0.RMoAGj7KGFUtvq3ebpg_3ksQJqy4Q-gA5jAfOF4SCPQ"`
+
+Notes: 
+You will find this token in response section (Cookies) in Posman. 
+Name: jwt
+Value: TOKEN
+For the posman you don’t have to set any thing. 
+Go to bash, bacause ‘=’ is not supported in fish 
+
+### Step 05: Now hit the API sever using any commands like this:
+`curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" http://localhost:8080/albums`
+
+Notes: 
+You can hit the API using postman also, Select correct verb and the API endpoints
+(GET, PUT, POST, DELETE)
+
 ---------------
 
 ### Run by CLI Commands
